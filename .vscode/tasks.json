@@ -1,0 +1,13 @@
+{
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/test",
+      },
+      "command": "clang -o main.exe -DBUFFER_SIZE=2 -g -O0 -fsanitize=address main.c ../src/get_next_line.c ../src/get_next_line_utils.c",
+      "problemMatcher": ["$gcc"],
+    },
+  ],
+}
