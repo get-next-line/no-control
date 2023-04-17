@@ -30,6 +30,7 @@ typedef enum e_get_next_line_string_util_type
 	get_next_line_string_util_type_ln_len,
 	get_next_line_string_util_type_copy_0,
 	get_next_line_string_util_type_copy_nl,
+	get_next_line_string_util_type_str_eq,
 }	t_get_next_line_string_util_type;
 
 /**
@@ -40,12 +41,13 @@ typedef enum e_get_next_line_string_util_type
  * get_next_line_string_util_type_ln_len - length of line including newline
  * get_next_line_string_util_type_copy_0 - copy entire string into extra
  * get_next_line_string_util_type_copy_nl - copy line including newline
+ * get_next_line_string_util_type_str_eq - return if data equals extra
  *
  * @param data string source
  * @param type job type
  * @param zero must be zero
  * @param extra optional string destination
- * @return size_t string length or position of newline or zero
+ * @return size_t string length or position of newline or zero, or 1 if equals
  */
 size_t	get_next_line_string_util(
 			const char *data,
@@ -59,15 +61,17 @@ typedef enum e_get_next_line_string_alloc_util_type
 	get_next_line_string_alloc_util_type_before_newline,
 	get_next_line_string_alloc_util_type_after_newline,
 	get_next_line_string_alloc_util_type_strdup,
+	get_next_line_string_alloc_util_type_free,
 }	t_get_next_line_string_alloc_util_type;
 
 /**
- * @brief allocation utils - do one of three jobs
+ * @brief allocation utils - do one of five jobs
  *
  * get_next_line_string_alloc_util_type_concat - concatenate two strings a and b
  * get_next_line_string_alloc_util_type_before_newline - first line of a
  * get_next_line_string_alloc_util_type_before_after_newline - rest of a
  * get_next_line_string_alloc_util_type_strdup - duplicate a
+ * get_next_line_string_alloc_util_type_free - free a and b
  *
  * @param a
  * @param b

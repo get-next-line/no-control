@@ -27,6 +27,8 @@ typedef char										*(*t_a)(
 	const char *b
 );
 
+typedef void										*(*t_m)(size_t size);
+
 static const t_get_next_line_string_util_type		g_0
 	= get_next_line_string_util_type_strlen;
 static const t_get_next_line_string_util_type		g_1
@@ -37,14 +39,19 @@ static const t_get_next_line_string_util_type		g_3
 	= get_next_line_string_util_type_copy_0;
 static const t_get_next_line_string_util_type		g_4
 	= get_next_line_string_util_type_copy_nl;
-static const t_get_next_line_string_alloc_util_type	g_5
+static const t_get_next_line_string_util_type		g_5
+	= get_next_line_string_util_type_str_eq;
+
+static const t_get_next_line_string_alloc_util_type	g_a
 	= get_next_line_string_alloc_util_type_concat;
-static const t_get_next_line_string_alloc_util_type	g_6
+static const t_get_next_line_string_alloc_util_type	g_b
 	= get_next_line_string_alloc_util_type_before_newline;
-static const t_get_next_line_string_alloc_util_type	g_7
+static const t_get_next_line_string_alloc_util_type	g_c
 	= get_next_line_string_alloc_util_type_after_newline;
-static const t_get_next_line_string_alloc_util_type	g_8
+static const t_get_next_line_string_alloc_util_type	g_d
 	= get_next_line_string_alloc_util_type_strdup;
+static const t_get_next_line_string_alloc_util_type	g_e
+	= get_next_line_string_alloc_util_type_free;
 
 size_t	get_next_line_string_util(
 	const char *s,
@@ -70,6 +77,8 @@ size_t	get_next_line_string_util(
 	(t == g_4) && (*d = *s);
 	(t == g_4 && *s && *s != '\n') && (u(s + 1, t, 0, d + 1));
 	(t == g_4 && *s == '\n') && (d[1] = 0);
+	(t == g_5 && !*s && !*d) && (r = 1);
+	(t == g_5 && *s && *s == *d) && (r = u(s + 1, t, 0, d + 1));
 	return (r);
 }
 
@@ -80,16 +89,23 @@ char	*get_next_line_string_alloc_util(
 )
 {
 	const t_u	u = get_next_line_string_util;
+	const t_m	m = malloc;
 	char		*r;
 
 	r = NULL;
-	(t == g_5) && (r = malloc(u(a, g_0, 0, NULL) + u(b, g_0, 0, NULL) + 1));
-	(t == g_5) && (u(a, g_3, 0, r) || u(b, g_3, 0, r + u(a, g_0, 0, NULL)));
-	(t == g_6) && (r = malloc(u(a, g_2, 0, NULL) + 1));
-	(t == g_6) && (u(a, g_4, 0, r));
-	(t == g_7) && (r = malloc(u(a + u(a, g_2, 0, NULL), g_0, 0, NULL) + 1));
-	(t == g_7) && (u(a + u(a, g_2, 0, NULL), g_3, 0, r));
-	(t == g_8) && (r = malloc(u(a, g_0, 0, NULL) + 1));
-	(t == g_8) && (u(a, g_3, 0, r));
+	(t == g_e) && (r = (char *)a);
+	free(r);
+	r = NULL;
+	(t == g_e) && (r = (char *)b);
+	free(r);
+	r = NULL;
+	(t == g_a) && (r = m(u(a, g_0, 0, NULL) + u(b, g_0, 0, NULL) + 1));
+	(t == g_a) && (u(a, g_3, 0, r) || u(b, g_3, 0, r + u(a, g_0, 0, NULL)));
+	(t == g_b) && (r = m(u(a, g_2, 0, NULL) + 1));
+	(t == g_b) && (u(a, g_4, 0, r));
+	(t == g_c) && (r = m(u(a + u(a, g_2, 0, NULL), g_0, 0, NULL) + 1));
+	(t == g_c) && (u(a + u(a, g_2, 0, NULL), g_3, 0, r));
+	(t == g_d) && (r = m(u(a, g_0, 0, NULL) + 1));
+	(t == g_d) && (u(a, g_3, 0, r));
 	return (r);
 }

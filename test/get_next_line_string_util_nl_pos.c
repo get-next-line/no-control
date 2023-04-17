@@ -13,7 +13,9 @@
 #include "../src/get_next_line.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void	assert(bool must_be_true)
 {
@@ -21,31 +23,33 @@ static void	assert(bool must_be_true)
 		abort();
 }
 
+static size_t	my_strchr(const char *str)
+{
+	const char *const	p = strchr(str, '\n');
+
+	if (p)
+		return ((uintptr_t)p - (uintptr_t)str);
+	return ((size_t)(-1));
+}
+
+static void	my_assert(const char *str)
+{
+	assert(get_next_line_string_util(str,
+			get_next_line_string_util_type_nl_pos, 0, NULL) == my_strchr(str));
+}
+
 int	main(void)
 {
-	assert(get_next_line_string_util("",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == (size_t)-1);
-	assert(get_next_line_string_util("0",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == (size_t)-1);
-	assert(get_next_line_string_util("\0",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == (size_t)-1);
-	assert(get_next_line_string_util("\0\n",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == (size_t)-1);
-	assert(get_next_line_string_util("123",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == (size_t)-1);
-	assert(get_next_line_string_util("\x1b[0m",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == (size_t)-1);
-	assert(get_next_line_string_util("test test",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == (size_t)-1);
-	assert(get_next_line_string_util("\n",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == 0);
-	assert(get_next_line_string_util("\n\n",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == 0);
-	assert(get_next_line_string_util("a\na",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == 1);
-	assert(get_next_line_string_util("Hello world!\n",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == 12);
-	assert(get_next_line_string_util("test  test \t\n\v\f\r",
-			get_next_line_string_util_type_nl_pos, 0, NULL) == 12);
+	my_assert("0");
+	my_assert("");
+	my_assert("\0");
+	my_assert("123");
+	my_assert("\x1b[0m");
+	my_assert("test test");
+	my_assert("\n");
+	my_assert("\n\n");
+	my_assert("a\na");
+	my_assert("Hello world!\n");
+	my_assert("test  test \t\n\v\f\r");
 	return (EXIT_SUCCESS);
 }

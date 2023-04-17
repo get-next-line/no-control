@@ -14,6 +14,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void	assert(bool must_be_true)
 {
@@ -21,31 +22,25 @@ static void	assert(bool must_be_true)
 		abort();
 }
 
+static void my_assert(const char *str)
+{
+	assert(get_next_line_string_util(str,
+			get_next_line_string_util_type_strlen, 0, NULL) == strlen(str));
+}
+
 int	main(void)
 {
-	assert(get_next_line_string_util("",
-			get_next_line_string_util_type_strlen, 0, NULL) == 0);
-	assert(get_next_line_string_util("0",
-			get_next_line_string_util_type_strlen, 0, NULL) == 1);
-	assert(get_next_line_string_util("\0",
-			get_next_line_string_util_type_strlen, 0, NULL) == 0);
-	assert(get_next_line_string_util("\n",
-			get_next_line_string_util_type_strlen, 0, NULL) == 1);
-	assert(get_next_line_string_util("123",
-			get_next_line_string_util_type_strlen, 0, NULL) == 3);
-	assert(get_next_line_string_util("\x1b[0m",
-			get_next_line_string_util_type_strlen, 0, NULL) == 4);
-	assert(get_next_line_string_util("test\0test",
-			get_next_line_string_util_type_strlen, 0, NULL) == 4);
-	assert(get_next_line_string_util("this is test",
-			get_next_line_string_util_type_strlen, 0, NULL) == 12);
-	assert(get_next_line_string_util("Hello world!",
-			get_next_line_string_util_type_strlen, 0, NULL) == 12);
-	assert(get_next_line_string_util("            ",
-			get_next_line_string_util_type_strlen, 0, NULL) == 12);
-	assert(get_next_line_string_util("\n\n\n\n\n\n",
-			get_next_line_string_util_type_strlen, 0, NULL) == 6);
-	assert(get_next_line_string_util("\t\n\v\f\r ",
-			get_next_line_string_util_type_strlen, 0, NULL) == 6);
+	my_assert("");
+	my_assert("0");
+	my_assert("\0");
+	my_assert("\n");
+	my_assert("123");
+	my_assert("\x1b[0m");
+	my_assert("test\0test");
+	my_assert("this is test");
+	my_assert("Hello world!");
+	my_assert("            ");
+	my_assert("\n\n\n\n\n\n");
+	my_assert("\t\n\v\f\r ");
 	return (EXIT_SUCCESS);
 }
