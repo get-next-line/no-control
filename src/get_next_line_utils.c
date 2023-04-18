@@ -123,7 +123,7 @@ t_err	get_next_line_string_alloc_util(
 	(t == g_e && l.p) && (g_u(a, g_3, 0, l.p));
 	((t == g_b || t == g_c || t == g_d || t == g_e) && !l.p) && (l.r = true);
 	(t == g_g) && (l.p = (char *)a);
-	(t == g_g && g_u("", g_5, 0, (char *)a)) && (l.r = true);
+	(t == g_g && (!a || g_u("", g_5, 0, (char *)a))) && (l.r = true);
 	(t == g_g && l.r) && (g_a(g_f, a, g_n, g_n) || (l.p = g_n));
 	((t == g_b || t == g_c || t == g_d || t == g_e || t == g_g) && !o)
 		&& (g_a(g_f, l.p, g_n, g_n) || (l.r = true));
