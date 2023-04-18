@@ -53,6 +53,8 @@ static const t_get_next_line_string_alloc_util_type	g_e
 	= get_next_line_string_alloc_util_type_strdup;
 static const t_get_next_line_string_alloc_util_type	g_f
 	= get_next_line_string_alloc_util_type_free;
+static const t_get_next_line_string_alloc_util_type	g_g
+	= get_next_line_string_alloc_util_type_free_if_empty;
 
 static const t_u									g_u
 	= get_next_line_string_util;
@@ -103,9 +105,7 @@ t_err	get_next_line_string_alloc_util(
 	p = g_n;
 	(t == g_f) && (p = (char *)a);
 	free(p);
-	p = g_n;
-	(t == g_f) && (p = (char *)b);
-	free(p);
+	(t == g_f && b) && (g_a(t, b, g_n, g_n));
 	p = g_n;
 	(t == g_b) && (p = g_m(g_u(a, g_0, 0, g_n) + g_u(b, g_0, 0, g_n) + 1));
 	(t == g_b && p)
@@ -117,8 +117,11 @@ t_err	get_next_line_string_alloc_util(
 	(t == g_e) && (p = g_m(g_u(a, g_0, 0, g_n) + 1));
 	(t == g_e && p) && (g_u(a, g_3, 0, p));
 	((t == g_b || t == g_c || t == g_d || t == g_e) && !p) && (r = true);
-	((t == g_b || t == g_c || t == g_d || t == g_e) && !o)
-		&& (g_a(g_f, p, g_n, g_n));
+	(t == g_g) && (p = (char *)a);
+	(t == g_g && g_u("", g_5, 0, (char *)a)) && (r = true);
+	(t == g_g && r) && (g_a(g_f, a, g_n, g_n) || (p = g_n));
+	((t == g_b || t == g_c || t == g_d || t == g_e || t == g_g) && !o)
+		&& (g_a(g_f, p, g_n, g_n) || (r = true));
 	(o) && (*o = p);
-	return (r);
+	return (r && t != g_g);
 }
