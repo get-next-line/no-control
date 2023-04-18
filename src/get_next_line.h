@@ -19,9 +19,12 @@
 #  error BUFFER_SIZE must be greater than 0
 # endif
 
+# include <stdbool.h>
 # include <stddef.h>
 
 char	*get_next_line(int fd);
+
+typedef bool	t_err;
 
 typedef enum e_get_next_line_string_util_type
 {
@@ -34,7 +37,7 @@ typedef enum e_get_next_line_string_util_type
 }	t_get_next_line_string_util_type;
 
 /**
- * @brief string utils - do one of five jobs
+ * @brief string utils - do one of six jobs
  *
  * get_next_line_string_util_type_strlen - length of data
  * get_next_line_string_util_type_nl_pos - position of newline, or -1
@@ -73,13 +76,16 @@ typedef enum e_get_next_line_string_alloc_util_type
  * get_next_line_string_alloc_util_type_strdup - duplicate a
  * get_next_line_string_alloc_util_type_free - free a and b
  *
+ * @param type
  * @param a
  * @param b
- * @return char*
+ * @param out pointer to retrieve result
+ * @return t_err true on error, false on success
  */
-char	*get_next_line_string_alloc_util(
+t_err	get_next_line_string_alloc_util(
 			t_get_next_line_string_alloc_util_type type,
 			const char *a,
-			const char *b);
+			const char *b,
+			char **out);
 
 #endif

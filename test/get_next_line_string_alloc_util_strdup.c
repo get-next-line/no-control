@@ -24,9 +24,14 @@ static void	assert(bool must_be_true)
 
 static void	my_assert(const char *str)
 {
-	char *const	result
-		= get_next_line_string_alloc_util(
-			get_next_line_string_alloc_util_type_strdup, str, NULL);
+	char	*result;
+
+	assert(
+		!get_next_line_string_alloc_util(
+			get_next_line_string_alloc_util_type_strdup,
+			str,
+			NULL,
+			&result));
 
 	assert(strcmp(result, str) == 0);
 	free(result);

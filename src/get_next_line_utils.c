@@ -21,10 +21,11 @@ typedef size_t										(*t_u)(
 	char *extra
 );
 
-typedef char										*(*t_a)(
+typedef t_err										(*t_a)(
 	t_get_next_line_string_alloc_util_type type,
 	const char *a,
-	const char *b
+	const char *b,
+	char **out
 );
 
 typedef void										*(*t_m)(size_t size);
@@ -42,16 +43,23 @@ static const t_get_next_line_string_util_type		g_4
 static const t_get_next_line_string_util_type		g_5
 	= get_next_line_string_util_type_str_eq;
 
-static const t_get_next_line_string_alloc_util_type	g_a
-	= get_next_line_string_alloc_util_type_concat;
 static const t_get_next_line_string_alloc_util_type	g_b
-	= get_next_line_string_alloc_util_type_before_newline;
+	= get_next_line_string_alloc_util_type_concat;
 static const t_get_next_line_string_alloc_util_type	g_c
-	= get_next_line_string_alloc_util_type_after_newline;
+	= get_next_line_string_alloc_util_type_before_newline;
 static const t_get_next_line_string_alloc_util_type	g_d
-	= get_next_line_string_alloc_util_type_strdup;
+	= get_next_line_string_alloc_util_type_after_newline;
 static const t_get_next_line_string_alloc_util_type	g_e
+	= get_next_line_string_alloc_util_type_strdup;
+static const t_get_next_line_string_alloc_util_type	g_f
 	= get_next_line_string_alloc_util_type_free;
+
+static const t_u									g_u
+	= get_next_line_string_util;
+static const t_a									g_a
+	= get_next_line_string_alloc_util;
+static const t_m									g_m = malloc;
+static void *const									g_n = NULL;
 
 size_t	get_next_line_string_util(
 	const char *s,
@@ -60,52 +68,57 @@ size_t	get_next_line_string_util(
 	char *d
 )
 {
-	const t_u	u = get_next_line_string_util;
 	size_t		r;
 
 	r = 0;
-	(t == g_0 && *s) && (r = u(s + 1, t, z + 1, NULL));
+	(t == g_0 && *s) && (r = g_u(s + 1, t, z + 1, g_n));
 	(t == g_0 && !*s) && (r = z);
-	(t == g_1 && *s != '\n' && *s) && (r = u(s + 1, t, z + 1, NULL));
+	(t == g_1 && *s != '\n' && *s) && (r = g_u(s + 1, t, z + 1, g_n));
 	(t == g_1 && !*s) && (r = -1);
 	(t == g_1 && *s == '\n') && (r = z);
 	(t == g_2) && (r = z);
-	(t == g_2 && *s && *s != '\n') && (r = u(s + 1, t, z + 1, NULL));
+	(t == g_2 && *s && *s != '\n') && (r = g_u(s + 1, t, z + 1, g_n));
 	(t == g_2 && *s == '\n') && (r++);
 	(t == g_3) && (*d = *s);
-	(t == g_3 && *s) && (u(s + 1, t, 0, d + 1));
+	(t == g_3 && *s) && (g_u(s + 1, t, 0, d + 1));
 	(t == g_4) && (*d = *s);
-	(t == g_4 && *s && *s != '\n') && (u(s + 1, t, 0, d + 1));
+	(t == g_4 && *s && *s != '\n') && (g_u(s + 1, t, 0, d + 1));
 	(t == g_4 && *s == '\n') && (d[1] = 0);
 	(t == g_5 && !*s && !*d) && (r = 1);
-	(t == g_5 && *s && *s == *d) && (r = u(s + 1, t, 0, d + 1));
+	(t == g_5 && *s && *s == *d) && (r = g_u(s + 1, t, 0, d + 1));
 	return (r);
 }
 
-char	*get_next_line_string_alloc_util(
+t_err	get_next_line_string_alloc_util(
 	t_get_next_line_string_alloc_util_type t,
 	const char *a,
-	const char *b
+	const char *b,
+	char **o
 )
 {
-	const t_u	u = get_next_line_string_util;
-	const t_m	m = malloc;
-	char		*r;
+	t_err	r;
+	char	*p;
 
-	r = NULL;
-	(t == g_e) && (r = (char *)a);
-	free(r);
-	r = NULL;
-	(t == g_e) && (r = (char *)b);
-	free(r);
-	r = NULL;
-	(t == g_a) && (r = m(u(a, g_0, 0, NULL) + u(b, g_0, 0, NULL) + 1));
-	(t == g_a) && (u(a, g_3, 0, r) || u(b, g_3, 0, r + u(a, g_0, 0, NULL)));
-	(t == g_b) && (r = m(u(a, g_2, 0, NULL) + 1));
-	(t == g_b) && (u(a, g_4, 0, r));
-	(t == g_c) && (r = m(u(a + u(a, g_2, 0, NULL), g_0, 0, NULL) + 1));
-	(t == g_c) && (u(a + u(a, g_2, 0, NULL), g_3, 0, r));
-	(t == g_d) && (r = m(u(a, g_0, 0, NULL) + 1));
-	(t == g_d) && (u(a, g_3, 0, r));
+	r = false;
+	p = g_n;
+	(t == g_f) && (p = (char *)a);
+	free(p);
+	p = g_n;
+	(t == g_f) && (p = (char *)b);
+	free(p);
+	p = g_n;
+	(t == g_b) && (p = g_m(g_u(a, g_0, 0, g_n) + g_u(b, g_0, 0, g_n) + 1));
+	(t == g_b && p)
+		&& (g_u(a, g_3, 0, p) || g_u(b, g_3, 0, p + g_u(a, g_0, 0, g_n)));
+	(t == g_c) && (p = g_m(g_u(a, g_2, 0, g_n) + 1));
+	(t == g_c && p) && (g_u(a, g_4, 0, p));
+	(t == g_d) && (p = g_m(g_u(a + g_u(a, g_2, 0, g_n), g_0, 0, g_n) + 1));
+	(t == g_d && p) && (g_u(a + g_u(a, g_2, 0, g_n), g_3, 0, p));
+	(t == g_e) && (p = g_m(g_u(a, g_0, 0, g_n) + 1));
+	(t == g_e && p) && (g_u(a, g_3, 0, p));
+	((t == g_b || t == g_c || t == g_d || t == g_e) && !p) && (r = true);
+	((t == g_b || t == g_c || t == g_d || t == g_e) && !o)
+		&& (g_a(g_f, p, g_n, g_n));
+	(o) && (*o = p);
 	return (r);
 }
